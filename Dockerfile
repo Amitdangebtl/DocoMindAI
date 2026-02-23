@@ -7,11 +7,11 @@ EXPOSE 8080
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy csproj correctly
+# copy csproj from correct folder
 COPY SimpleUplode/SimpleUplode.csproj SimpleUplode/
 RUN dotnet restore SimpleUplode/SimpleUplode.csproj
 
-# Copy rest of the source
+# copy rest of source
 COPY . .
 WORKDIR /src/SimpleUplode
 RUN dotnet publish SimpleUplode.csproj -c Release -o /app/publish /p:UseAppHost=false
