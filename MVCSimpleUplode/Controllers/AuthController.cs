@@ -116,7 +116,7 @@ public class AuthController : Controller
             return View(model);
 
         var response = await _http.PostAsync(
-            "auth/register",
+            "https://docomindai-1.onrender.com/api/auth/register",
             new StringContent(
                 JsonSerializer.Serialize(model),
                 Encoding.UTF8,
