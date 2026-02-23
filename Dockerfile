@@ -21,8 +21,13 @@ RUN dotnet build "SimpleUplode.csproj" -c $BUILD_CONFIGURATION -o /app/build
 FROM build AS publish
 RUN dotnet publish "SimpleUplode.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
-# Final
+# Final stage
 FROM base AS final
 WORKDIR /app
+
+# 🔥 IMPORTANT FOR RENDER
+ENV ASPNETCORE_URLS=http://+:8080
+ENV ASPNETCORE_ENVIRONMENT=Production
+
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "SimpleUplode.dll"]
