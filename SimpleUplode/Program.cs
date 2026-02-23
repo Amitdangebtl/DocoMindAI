@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi;
 using Microsoft.OpenApi.Models;
 using OfficeOpenXml;
 using SimpleUplode.Services;
@@ -8,13 +7,25 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// EPPlus License
+// =======================
+// 🔧 Render PORT SUPPORT
+// =======================
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.UseUrls($"http://*:{port}");
+
+// =======================
+// 📊 EPPlus License
+// =======================
 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
-// Controllers
+// =======================
+// 🎮 Controllers
+// =======================
 builder.Services.AddControllers();
 
-// Services
+// =======================
+// 🔌 Services
+// =======================
 builder.Services.AddSingleton<MongoService>();
 builder.Services.AddHttpClient<OpenAIService>();
 builder.Services.AddSingleton<QdrantService>();
@@ -22,7 +33,9 @@ builder.Services.AddSingleton<AuthService>();
 builder.Services.AddScoped<AdminService>();
 builder.Services.AddScoped<UserService>();
 
-// 🔐 JWT AUTHENTICATION
+// =======================
+// 🔐 JWT Authentication
+// =======================
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>
 {
@@ -37,33 +50,38 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         ValidAudience = builder.Configuration["Jwt:Audience"],
 
         IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])
+            Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)
         )
     };
 });
 
-// 🔐 AUTHORIZATION
+// =======================
+// 🔐 Authorization
+// =======================
 builder.Services.AddAuthorization();
 
-// 🌐 CORS
+// =======================
+// 🌐 CORS (Allow All)
+// =======================
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAllOrigins",
-        builder =>
-        {
-            builder.AllowAnyOrigin()
-                   .AllowAnyMethod()
-                   .AllowAnyHeader();
-        });
+    options.AddPolicy("AllowAllOrigins", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
 });
 
-// 📄 SWAGGER + JWT SUPPORT
+// =======================
+// 📄 Swagger + JWT
+// =======================
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "SimpleUpload API",
+        Title = "DocoMindAI API",
         Version = "v1"
     });
 
@@ -88,28 +106,33 @@ builder.Services.AddSwaggerGen(c =>
                     Id = "Bearer"
                 }
             },
-            new string[] {}
+            Array.Empty<string>()
         }
     });
 });
 
-
 var app = builder.Build();
 
-// Middleware
-if (app.Environment.IsDevelopment())
+// =======================
+// 🚀 Middleware Pipeline
+// =======================
+
+// ✅ Swagger ENABLED for Render (NO IsDevelopment check)
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "DocoMindAI API v1");
+    c.RoutePrefix = "swagger"; // /swagger
+});
 
 app.UseCors("AllowAllOrigins");
 
 app.UseHttpsRedirection();
 
-// 🔐 ORDER IS IMPORTANT
-app.UseAuthentication();   
+// 🔐 ORDER MATTERS
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
 app.Run();

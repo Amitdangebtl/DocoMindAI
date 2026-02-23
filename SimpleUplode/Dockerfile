@@ -1,27 +1,29 @@
-# See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-# This stage is used when running from VS in fast mode (Default for Debug configuration)
+﻿# ================= BASE (runtime) =================
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
 
-# This stage is used to build the service project
+# ================= BUILD =================
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["SimpleUplode.csproj", "."]
-RUN dotnet restore "./SimpleUplode.csproj"
-COPY . .
-WORKDIR "/src/."
-RUN dotnet build "./SimpleUplode.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# This stage is used to publish the service project to be copied to the final stage
+# 👇 FIXED PATH
+COPY ["SimpleUplode/SimpleUplode.csproj", "SimpleUplode/"]
+RUN dotnet restore "SimpleUplode/SimpleUplode.csproj"
+
+# copy rest of the source
+COPY . .
+WORKDIR "/src/SimpleUplode"
+
+RUN dotnet build "SimpleUplode.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+# ================= PUBLISH =================
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./SimpleUplode.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "SimpleUplode.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-# This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
+# ================= FINAL =================
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
