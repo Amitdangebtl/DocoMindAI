@@ -2,13 +2,11 @@
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ---------------- MVC ----------------
+// MVC
 builder.Services.AddControllersWithViews();
-
-// ---------------- HTTP CONTEXT (LAYOUT / ROLES) ----------------
 builder.Services.AddHttpContextAccessor();
 
-// ---------------- SESSION ----------------
+// Session
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(60);
@@ -16,18 +14,16 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-// ---------------- HTTP CLIENT (API CALLS) ----------------
+// HttpClient
 builder.Services.AddHttpClient("API", (sp, client) =>
 {
     var config = sp.GetRequiredService<IConfiguration>();
-
-    // Docker ke liye yahi URL use hoga
-    var apiBaseUrl = config["ApiBaseUrl"] ?? "http://webapi/api/";
+    var apiBaseUrl = config["ApiBaseUrl"];
 
     client.BaseAddress = new Uri(apiBaseUrl);
 });
 
-// ---------------- AUTHENTICATION (COOKIE BASED MVC) ----------------
+// Auth
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -36,31 +32,16 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
     });
 
-// ---------------- AUTHORIZATION ----------------
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-// ---------------- PIPELINE ----------------
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
-}
-
-// ⚠️ Docker me HTTPS force mat karo
-// app.UseHttpsRedirection();
-
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseSession();
-
 app.UseAuthentication();
 app.UseAuthorization();
 
-// ---------------- ROUTING ----------------
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
