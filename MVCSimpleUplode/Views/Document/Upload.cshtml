@@ -1,0 +1,110 @@
+﻿@{
+    ViewBag.Title = "Upload Document";
+}
+
+<style>
+    /* ===== UPLOAD CARD ===== */
+    .upload-card {
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 18px;
+        box-shadow: 0 20px 45px rgba(15,23,42,0.15);
+        overflow: hidden;
+    }
+
+    /* ===== HEADER ===== */
+    .upload-header {
+        background: linear-gradient(135deg, #1e40af, #2563eb, #4f46e5);
+        color: #ffffff;
+        padding: 22px;
+        text-align: center;
+    }
+
+    /* ===== FILE INPUT ===== */
+    .form-control {
+        border-radius: 12px;
+        padding: 12px;
+    }
+
+    /* ===== UPLOAD BUTTON ===== */
+    .btn-upload {
+        background: linear-gradient(90deg, #2563eb, #4f46e5);
+        border: none;
+        color: #ffffff;
+        border-radius: 12px;
+        padding: 12px;
+        font-weight: 600;
+    }
+
+    /* ===== BACK BUTTON ===== */
+    .btn-back {
+        background: linear-gradient(90deg, #64748b, #475569);
+        border: none;
+        color: #ffffff;
+        border-radius: 10px;
+        padding: 10px 24px;
+        font-weight: 600;
+    }
+
+    /* ===== NOTE ===== */
+    .upload-note {
+        font-size: 0.9rem;
+        color: #64748b;
+        margin-top: 10px;
+        text-align: center;
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="upload-card">
+
+                <!-- ===== HEADER ===== -->
+                <div class="upload-header">
+                    <h4 class="mb-0">📤 Upload PDF Document</h4>
+                </div>
+
+                <!-- ===== BODY ===== -->
+                <div class="p-4">
+                    <form method="post" enctype="multipart/form-data">
+
+                        <div class="mb-3">
+                            <input type="file"
+                                   name="file"
+                                   class="form-control"
+                                   accept=".pdf" />
+                        </div>
+
+                        <div class="d-grid mt-3">
+                            <button type="submit" class="btn btn-upload">
+                                Upload Document
+                            </button>
+                        </div>
+
+                        <p class="upload-note">
+                            Only PDF files are supported.
+                        </p>
+
+                        @if (ViewBag.Error != null)
+                        {
+                            <div class="alert alert-danger mt-3">
+                                @ViewBag.Error
+                            </div>
+                        }
+                    </form>
+                </div>
+
+            </div>
+
+            <!-- ===== BACK BUTTON ===== -->
+            <div class="text-center mt-4">
+                <a asp-action="MyDocuments" class="btn btn-back">
+                    ⬅ Back to My Documents
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>

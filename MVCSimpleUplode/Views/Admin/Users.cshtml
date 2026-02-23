@@ -1,0 +1,121 @@
+﻿@model List<MVCSimpleUplode.Models.AdminUserViewModel>
+
+<style>
+    /* ===== HEADER ===== */
+    .admin-page-header {
+        background: linear-gradient(135deg, #1e40af, #2563eb, #4f46e5);
+        color: #ffffff;
+        border-radius: 16px;
+        padding: 28px;
+        box-shadow: 0 18px 40px rgba(30,64,175,0.35);
+    }
+
+    /* ===== TABLE CARD ===== */
+    .table-card {
+        background: rgba(255,255,255,0.92);
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 18px 40px rgba(15,23,42,0.12);
+    }
+
+    /* ===== TABLE ===== */
+    .table thead {
+        background: linear-gradient(90deg, #2563eb, #4f46e5);
+        color: #ffffff;
+    }
+
+        .table thead th {
+            border: none;
+            font-weight: 600;
+        }
+
+    .table tbody tr:hover {
+        background-color: #f1f5ff;
+    }
+
+    /* ===== BADGE ===== */
+    .badge-role {
+        background: linear-gradient(90deg, #38bdf8, #0ea5e9);
+        color: #ffffff;
+        font-weight: 500;
+        padding: 6px 12px;
+        border-radius: 8px;
+    }
+
+    /* ===== DELETE BUTTON ===== */
+    .btn-delete {
+        background: linear-gradient(90deg, #ef4444, #dc2626);
+        border: none;
+        color: #fff;
+        border-radius: 8px;
+        padding: 6px 14px;
+        font-weight: 500;
+    }
+
+    /* ===== BACK BUTTON ===== */
+    .btn-back {
+        background: linear-gradient(90deg, #64748b, #475569);
+        border: none;
+        color: #fff;
+        border-radius: 10px;
+        padding: 10px 24px;
+        font-weight: 600;
+    }
+</style>
+
+<div class="container mt-4">
+
+    <!-- ===== HEADER ===== -->
+    <div class="admin-page-header text-center mb-4">
+        <h2 class="fw-bold mb-1">👥 Users Management</h2>
+        <p class="opacity-75 mb-0">
+            View, manage and remove application users
+        </p>
+    </div>
+
+    <!-- ===== TABLE ===== -->
+    <div class="table-card">
+        <table class="table align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th style="width:120px;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var u in Model)
+                {
+                    <tr>
+                        <td class="fw-medium">@u.Name</td>
+                        <td>@u.Email</td>
+                        <td>
+                            <span class="badge-role">@u.Role</span>
+                        </td>
+                        <td>
+                            <form asp-action="DeleteUser"
+                                  method="post"
+                                  onsubmit="return confirm('Delete this user?');">
+                                <input type="hidden" name="id" value="@u.Id" />
+                                <button type="submit"
+                                        class="btn btn-delete btn-sm">
+                                    🗑 Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ===== BACK BUTTON ===== -->
+    <div class="mt-4 text-center">
+        <a asp-action="Dashboard" class="btn btn-back">
+            ⬅ Back to Dashboard
+        </a>
+    </div>
+
+</div>

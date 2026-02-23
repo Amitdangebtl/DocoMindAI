@@ -1,0 +1,191 @@
+﻿@{
+    ViewBag.Title = "Home - DocoMind AI";
+}
+<style>
+    /* ===== HERO SECTION ===== */
+    .hero-section {
+        background: linear-gradient(135deg, #4338ca, #2563eb, #4f46e5);
+        color: #ffffff;
+    }
+
+        .hero-section h1 {
+            letter-spacing: 0.6px;
+        }
+
+        .hero-section p {
+            max-width: 720px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+    /* ===== SECTIONS ===== */
+    .section-light {
+        background: #f8fafc;
+    }
+
+    .section-dark {
+        background: linear-gradient(135deg, #0f172a, #1e293b);
+        color: #e5e7eb;
+    }
+
+    /* ===== BUTTONS ===== */
+    .hero-section .btn-light {
+        background: #ffffff;
+        color: #1e293b;
+        border-radius: 10px;
+        padding: 12px 28px;
+        font-weight: 600;
+    }
+
+    .hero-section .btn-outline-light {
+        border-radius: 10px;
+        padding: 12px 28px;
+        font-weight: 600;
+        border-width: 2px;
+    }
+
+    /* ===== FEATURE CARDS ===== */
+    .feature-box {
+        background: #ffffff;
+        border-radius: 14px;
+        padding: 25px;
+        box-shadow: 0 14px 30px rgba(15,23,42,0.08);
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+
+        .feature-box:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 22px 40px rgba(15,23,42,0.12);
+        }
+
+        .feature-box h4 {
+            color: #1e40af;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+    /* ===== LIST ===== */
+    .list-group-item {
+        background: transparent;
+        border: none;
+        padding-left: 0;
+        font-weight: 500;
+        color: #334155;
+    }
+
+    /* ===== CTA ===== */
+    .section-dark .btn-success {
+        background: linear-gradient(90deg, #22c55e, #16a34a);
+        border: none;
+        border-radius: 12px;
+        padding: 12px 32px;
+        font-weight: 600;
+    }
+</style>
+
+<!-- ================= HERO ================= -->
+<section class="py-5 text-center hero-section">
+    <div class="container">
+        <h1 class="display-5 fw-bold">DocoMind AI</h1>
+        <p class="lead mt-3">
+            Secure Document Upload & AI-Powered Insights
+        </p>
+        <p class="mt-3 opacity-75">
+            Upload your documents, manage them securely, and ask AI questions
+            directly from your files.
+        </p>
+
+        <div class="mt-4">
+            <a asp-controller="Auth" asp-action="Login"
+               class="btn btn-light btn-lg me-2 shadow">
+                Login
+            </a>
+            <a asp-controller="Auth" asp-action="Register"
+               class="btn btn-outline-light btn-lg shadow">
+                Get Started
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section class="py-5 section-light">
+    <div class="container">
+        <div class="row text-center g-4">
+
+            <div class="col-md-4">
+                <div class="feature-box">
+                    <h4>🔐 Secure</h4>
+                    <p class="text-muted">
+                        JWT based authentication with role-based access
+                        for Admin and Users.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-box">
+                    <h4>📄 Document Management</h4>
+                    <p class="text-muted">
+                        Upload, view, delete and manage your documents
+                        with full control.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-box">
+                    <h4>🤖 AI Powered</h4>
+                    <p class="text-muted">
+                        Ask AI questions directly from your uploaded
+                        documents using smart search.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ================= FEATURES ================= -->
+<section class="py-5 section-light">
+    <div class="container">
+        <h2 class="text-center mb-4 fw-bold">Why DocoMind AI?</h2>
+
+        <div class="row">
+            <div class="col-md-6">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">✔ Role-based User & Admin access</li>
+                    <li class="list-group-item">✔ Secure PDF upload</li>
+                    <li class="list-group-item">✔ MongoDB + Vector Database support</li>
+                    <li class="list-group-item">✔ ASP.NET MVC + Web API architecture</li>
+                </ul>
+            </div>
+
+            <div class="col-md-6">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">✔ AI question answering</li>
+                    <li class="list-group-item">✔ Clean & modern UI</li>
+                    <li class="list-group-item">✔ Scalable architecture</li>
+                    <li class="list-group-item">✔ Industry-ready project</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="py-5 section-dark text-center">
+    <div class="container">
+        <h3 class="fw-bold">Ready to get started?</h3>
+        <p class="mt-2 opacity-75">
+            Create your account and start using AI today.
+        </p>
+
+        <a asp-controller="Auth" asp-action="Register"
+           class="btn btn-success btn-lg mt-3 shadow">
+            Create Account
+        </a>
+    </div>
+</section>

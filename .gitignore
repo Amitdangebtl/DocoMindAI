@@ -1,0 +1,11 @@
+# Ignore app settings with secrets
+appsettings.json
+appsettings.Development.json
+
+# Environment files
+.env
+
+# Visual Studio
+.vs/
+bin/
+obj/

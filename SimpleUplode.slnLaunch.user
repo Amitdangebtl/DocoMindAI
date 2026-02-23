@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "SimpleUplode\\SimpleUplode.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "MVCSimpleUplode\\MVCSimpleUplode.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

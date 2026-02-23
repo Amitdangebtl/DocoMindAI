@@ -1,0 +1,79 @@
+﻿@model MVCSimpleUplode.Models.DocumentViewModel
+@{
+    ViewBag.Title = "View Document";
+}
+
+<style>
+    /* ===== HEADER ===== */
+    .doc-header {
+        background: linear-gradient(135deg, #1e40af, #2563eb, #4f46e5);
+        color: #ffffff;
+        border-radius: 16px 16px 0 0;
+        padding: 20px 24px;
+    }
+
+    /* ===== CARD ===== */
+    .doc-card {
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        box-shadow: 0 20px 45px rgba(15,23,42,0.15);
+        overflow: hidden;
+    }
+
+    /* ===== DOCUMENT VIEWER ===== */
+    .doc-body {
+        max-height: 500px;
+        overflow-y: auto;
+        white-space: pre-wrap;
+        background: #f8fafc;
+        padding: 22px;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        color: #0f172a;
+        border-top: 1px solid #e5e7eb;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    /* ===== FOOTER ===== */
+    .doc-footer {
+        padding: 18px;
+        text-align: center;
+        background: #ffffff;
+    }
+
+    /* ===== BACK BUTTON ===== */
+    .btn-back {
+        background: linear-gradient(90deg, #64748b, #475569);
+        border: none;
+        color: #fff;
+        border-radius: 10px;
+        padding: 10px 26px;
+        font-weight: 600;
+    }
+</style>
+
+<div class="container mt-4">
+
+    <div class="doc-card">
+
+        <!-- ===== HEADER ===== -->
+        <div class="doc-header">
+            <h4 class="mb-0">📘 @Model.FileName</h4>
+        </div>
+
+        <!-- ===== BODY ===== -->
+        <div class="doc-body">
+            @Model.Text
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <div class="doc-footer">
+            <a asp-action="Documents" class="btn btn-back">
+                ⬅ Back to Documents
+            </a>
+        </div>
+
+    </div>
+
+</div>

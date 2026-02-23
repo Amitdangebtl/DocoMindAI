@@ -1,0 +1,110 @@
+﻿@model MVCSimpleUplode.Models.UpdateUserRequest
+@{
+    ViewBag.Title = "Edit Profile";
+}
+
+<style>
+    /* ===== EDIT PROFILE CARD ===== */
+    .edit-card {
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 18px;
+        box-shadow: 0 20px 45px rgba(15,23,42,0.15);
+        overflow: hidden;
+    }
+
+    /* ===== HEADER ===== */
+    .edit-header {
+        background: linear-gradient(135deg, #f59e0b, #fbbf24);
+        color: #1e293b;
+        padding: 22px;
+        font-weight: 600;
+    }
+
+    /* ===== FORM ===== */
+    .form-label {
+        font-weight: 600;
+        color: #1e293b;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        padding: 10px 14px;
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn-update {
+        background: linear-gradient(90deg, #22c55e, #16a34a);
+        border: none;
+        color: #ffffff;
+        border-radius: 12px;
+        padding: 12px;
+        font-weight: 600;
+    }
+
+    .btn-back {
+        background: linear-gradient(90deg, #64748b, #475569);
+        border: none;
+        color: #ffffff;
+        border-radius: 10px;
+        padding: 10px 24px;
+        font-weight: 600;
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="edit-card">
+
+                <!-- ===== HEADER ===== -->
+                <div class="edit-header">
+                    ✏️ Edit Profile
+                </div>
+
+                <!-- ===== BODY ===== -->
+                <div class="p-4">
+                    <form method="post">
+
+                        <div class="mb-3">
+                            <label class="form-label">Name</label>
+                            <input asp-for="Name"
+                                   class="form-control" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input asp-for="Email"
+                                   class="form-control" />
+                        </div>
+
+                        <div class="d-grid mt-4">
+                            <button type="submit"
+                                    class="btn btn-update">
+                                Update Profile
+                            </button>
+                        </div>
+
+                        @if (ViewBag.Error != null)
+                        {
+                            <div class="alert alert-danger mt-3">
+                                @ViewBag.Error
+                            </div>
+                        }
+                    </form>
+                </div>
+
+            </div>
+
+            <!-- ===== BACK BUTTON ===== -->
+            <div class="text-center mt-4">
+                <a asp-action="Profile"
+                   class="btn btn-back">
+                    ⬅ Back to Profile
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,127 @@
+﻿@{
+    ViewBag.Title = "Admin Dashboard";
+}
+
+<style>
+    /* ===== PAGE HEADER ===== */
+    .admin-header {
+        background: linear-gradient(135deg, #1e40af, #2563eb, #4f46e5);
+        color: #ffffff;
+        border-radius: 18px;
+        padding: 35px;
+        box-shadow: 0 20px 45px rgba(30,64,175,0.35);
+    }
+
+    /* ===== DASHBOARD CARDS ===== */
+    .admin-card {
+        background: rgba(255,255,255,0.85);
+        backdrop-filter: blur(10px);
+        border-radius: 18px;
+        box-shadow: 0 18px 40px rgba(15,23,42,0.12);
+        transition: all 0.35s ease;
+        height: 100%;
+    }
+
+        .admin-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(15,23,42,0.2);
+        }
+
+        .admin-card h4 {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+    /* ===== ICON STYLE ===== */
+    .admin-icon {
+        font-size: 42px;
+        margin-bottom: 15px;
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn-admin-primary {
+        background: linear-gradient(90deg, #2563eb, #4f46e5);
+        border: none;
+        color: #fff;
+        border-radius: 12px;
+        padding: 10px 24px;
+        font-weight: 600;
+    }
+
+    .btn-admin-success {
+        background: linear-gradient(90deg, #22c55e, #16a34a);
+        border: none;
+        color: #fff;
+        border-radius: 12px;
+        padding: 10px 24px;
+        font-weight: 600;
+    }
+
+    .btn-admin-dark {
+        background: linear-gradient(90deg, #0f172a, #1e293b);
+        border: none;
+        color: #fff;
+        border-radius: 12px;
+        padding: 10px 24px;
+        font-weight: 600;
+    }
+</style>
+
+<div class="container mt-4">
+
+    <!-- ===== HEADER ===== -->
+    <div class="admin-header text-center mb-5">
+        <h2 class="fw-bold mb-2">👑 Admin Dashboard</h2>
+        <p class="opacity-75 mb-0">
+            Centralized control for users, documents & AI access
+        </p>
+    </div>
+
+    <!-- ===== DASHBOARD BOXES ===== -->
+    <div class="row g-4">
+
+        <!-- USERS -->
+        <div class="col-md-4">
+            <div class="admin-card text-center p-4">
+                <div class="admin-icon">👥</div>
+                <h4>Manage Users</h4>
+                <p class="text-muted">
+                    View, block or remove registered users
+                </p>
+                <a asp-action="Users" class="btn btn-admin-primary mt-2">
+                    View Users
+                </a>
+            </div>
+        </div>
+
+        <!-- DOCUMENTS -->
+        <div class="col-md-4">
+            <div class="admin-card text-center p-4">
+                <div class="admin-icon">📄</div>
+                <h4>All Documents</h4>
+                <p class="text-muted">
+                    Monitor and manage uploaded documents
+                </p>
+                <a asp-action="Documents" class="btn btn-admin-success mt-2">
+                    View Documents
+                </a>
+            </div>
+        </div>
+
+        <!-- ASK AI -->
+        <div class="col-md-4">
+            <div class="admin-card text-center p-4">
+                <div class="admin-icon">🤖</div>
+                <h4>Ask AI</h4>
+                <p class="text-muted">
+                    Ask AI questions across all user documents
+                </p>
+                <a asp-controller="Ai" asp-action="Ask"
+                   class="btn btn-admin-dark mt-2">
+                    Ask AI
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>

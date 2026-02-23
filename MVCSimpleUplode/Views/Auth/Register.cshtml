@@ -1,0 +1,123 @@
+﻿@model MVCSimpleUplode.Models.RegisterRequest
+@{
+    ViewBag.Title = "Home - DocoMind AI";
+}
+
+<style>
+    /* ===== AUTH CARD ===== */
+    .auth-card {
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 18px;
+        box-shadow: 0 20px 45px rgba(15,23,42,0.15);
+        overflow: hidden;
+    }
+
+    /* ===== HEADER ===== */
+    .auth-header {
+        background: linear-gradient(135deg, #22c55e, #16a34a, #15803d);
+        color: #ffffff;
+        padding: 22px;
+        text-align: center;
+    }
+
+    /* ===== FORM ===== */
+    .form-label {
+        font-weight: 600;
+        color: #1e293b;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        padding: 10px 14px;
+    }
+
+    /* ===== BUTTON ===== */
+    .btn-register {
+        background: linear-gradient(90deg, #22c55e, #16a34a);
+        border: none;
+        color: #ffffff;
+        border-radius: 12px;
+        padding: 12px;
+        font-weight: 600;
+    }
+
+    /* ===== FOOTER ===== */
+    .auth-footer {
+        background: #f8fafc;
+        text-align: center;
+        padding: 14px;
+    }
+
+        .auth-footer a {
+            text-decoration: none;
+            font-weight: 600;
+            color: #16a34a;
+        }
+</style>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+
+            <div class="auth-card">
+
+                <!-- ===== HEADER ===== -->
+                <div class="auth-header">
+                    <h4 class="mb-0">📝 Register</h4>
+                </div>
+
+                <!-- ===== BODY ===== -->
+                <div class="p-4">
+                    <form method="post">
+
+                        <div class="mb-3">
+                            <label class="form-label">Name</label>
+                            <input asp-for="Name"
+                                   class="form-control"
+                                   placeholder="Your name" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input asp-for="Email"
+                                   class="form-control"
+                                   placeholder="Your email" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <input asp-for="Password"
+                                   type="password"
+                                   class="form-control"
+                                   placeholder="Create password" />
+                        </div>
+
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-register">
+                                Create Account
+                            </button>
+                        </div>
+
+                        @if (ViewBag.Error != null)
+                        {
+                            <div class="alert alert-danger mt-3">
+                                @ViewBag.Error
+                            </div>
+                        }
+                    </form>
+                </div>
+
+                <!-- ===== FOOTER ===== -->
+                <div class="auth-footer">
+                    <small>
+                        Already registered?
+                        <a asp-action="Login">Login here</a>
+                    </small>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

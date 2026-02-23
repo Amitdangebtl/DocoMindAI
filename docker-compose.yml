@@ -1,0 +1,79 @@
+﻿version: '3.8'
+
+services:
+  # ================= API =================
+  webapi:
+    build:
+      context: ./SimpleUplode
+      dockerfile: Dockerfile
+    image: myapi_mongo:latest
+    container_name: simpleuplode_api
+    ports:
+      - "5003:80"
+    environment:
+      ASPNETCORE_URLS: "http://+:80"
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ConnectionStrings__DefaultConnection: "mongodb://mongo:27017"
+      MongoDB__DatabaseName: "DocumentDb"
+      MongoDB__CollectionName: "Document"
+
+      # ✅ OPENAI KEY (SECURE – ENV VARIABLE)
+      OpenAI__ApiKey: ${OPENAI_API_KEY}
+
+    depends_on:
+      - mongo
+      - qdrant
+    networks:
+      - my_custom_network
+
+  # ================= MVC =================
+  mvc:
+    build:
+      context: ./MVCSimpleUplode
+      dockerfile: Dockerfile
+    image: mymvc_app:latest
+    container_name: simpleuplode_mvc
+    ports:
+      - "5004:8080"
+    environment:
+      ASPNETCORE_URLS: "http://+:8080"
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ApiBaseUrl: "http://webapi/api/"
+    depends_on:
+      webapi:
+        condition: service_started
+    restart: unless-stopped
+    networks:
+      - my_custom_network
+
+  # ================= MongoDB =================
+  mongo:
+    image: mongo:latest
+    container_name: mongo_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - my_custom_network
+
+  # ================= Qdrant =================
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: qdrant_db
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant-data:/qdrant/storage
+    networks:
+      - my_custom_network
+
+# ================= NETWORK =================
+networks:
+  my_custom_network:
+
+# ================= VOLUMES =================
+volumes:
+  mongo-data:
+  qdrant-data:
