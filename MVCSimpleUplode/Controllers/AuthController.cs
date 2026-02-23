@@ -12,7 +12,8 @@ public class AuthController : Controller
     private readonly HttpClient _http;
     public AuthController(IHttpClientFactory factory)
     {
-        _http = factory.CreateClient("API");
+        _http = factory.CreateClient();
+        _http.BaseAddress = new Uri("https://docomindai-1.onrender.com/api/");
     }
     //public AuthController(IHttpClientFactory factory)
     //{
