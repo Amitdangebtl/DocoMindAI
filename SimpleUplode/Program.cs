@@ -7,35 +7,21 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// =======================
-// 🔧 Render PORT SUPPORT
-// =======================
-var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-builder.WebHost.UseUrls($"http://*:{port}");
-
-// =======================
-// 📊 EPPlus License
-// =======================
+// ================= EPPlus =================
 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
-// =======================
-// 🎮 Controllers
-// =======================
+// ================= Controllers =================
 builder.Services.AddControllers();
 
-// =======================
-// 🔌 Services
-// =======================
+// ================= Services =================
 builder.Services.AddSingleton<MongoService>();
-builder.Services.AddHttpClient<OpenAIService>();
 builder.Services.AddSingleton<QdrantService>();
 builder.Services.AddSingleton<AuthService>();
 builder.Services.AddScoped<AdminService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddHttpClient<OpenAIService>();
 
-// =======================
-// 🔐 JWT Authentication
-// =======================
+// ================= JWT =================
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>
 {
@@ -55,27 +41,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     };
 });
 
-// =======================
-// 🔐 Authorization
-// =======================
 builder.Services.AddAuthorization();
 
-// =======================
-// 🌐 CORS (Allow All)
-// =======================
+// ================= CORS =================
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAllOrigins", policy =>
-    {
+    options.AddPolicy("AllowAll", policy =>
         policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader();
-    });
+              .AllowAnyHeader()
+              .AllowAnyMethod());
 });
 
-// =======================
-// 📄 Swagger + JWT
-// =======================
+// ================= Swagger =================
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -92,7 +69,7 @@ builder.Services.AddSwaggerGen(c =>
         Scheme = "bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
-        Description = "Enter JWT like: Bearer {token}"
+        Description = "Bearer {your JWT token}"
     });
 
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -113,23 +90,21 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// =======================
-// 🚀 Middleware Pipeline
-// =======================
+// ================= MIDDLEWARE ORDER (FINAL) =================
 
-// ✅ Swagger ENABLED for Render (NO IsDevelopment check)
+// 🔥 Swagger ALWAYS ON (Production bhi)
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "DocoMindAI API v1");
-    c.RoutePrefix = "swagger"; // /swagger
+    c.RoutePrefix = "swagger";
 });
 
-app.UseCors("AllowAllOrigins");
+app.UseCors("AllowAll");
 
-app.UseHttpsRedirection();
+// ❌ Render pe HTTPS redirect mat lagao
+// app.UseHttpsRedirection();
 
-// 🔐 ORDER MATTERS
 app.UseAuthentication();
 app.UseAuthorization();
 
