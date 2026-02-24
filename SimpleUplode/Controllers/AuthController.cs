@@ -17,11 +17,25 @@ namespace SimpleUplode.Controllers
             _authService = authService;
         }
 
+        //[HttpPost("register")]
+        //public IActionResult Register(RegisterRequest model)
+        //{
+        //    var result = _authService.Register(model);
+        //    return Ok(result);
+        //}
+
         [HttpPost("register")]
         public IActionResult Register(RegisterRequest model)
         {
-            var result = _authService.Register(model);
-            return Ok(result);
+            try
+            {
+                var result = _authService.Register(model);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost("login")]
