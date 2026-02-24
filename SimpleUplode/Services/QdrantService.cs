@@ -8,15 +8,30 @@ public class QdrantService
     private readonly OpenAIService _openai;
 
     private const string Collection = "document_vectors";
-    private const int VectorSize = 1536; 
+    private const int VectorSize = 1536;
 
-    public QdrantService(OpenAIService openai)
+
+
+    public QdrantService(OpenAIService openai, IConfiguration config)
     {
-        
-        _client = new QdrantClient("qdrant", 6334);
-        //_client = new QdrantClient("localhost", 6334);
         _openai = openai;
+
+        var qdrantUrl = config["QDRANT_URL"];
+        var qdrantApiKey = config["QDRANT_API_KEY"];
+
+        _client = new QdrantClient(
+            new Uri(qdrantUrl),
+            apiKey: qdrantApiKey
+        );
     }
+
+    //public QdrantService(OpenAIService openai)
+    //{
+
+    //    _client = new QdrantClient("qdrant", 6334);
+    //    //_client = new QdrantClient("localhost", 6334);
+    //    _openai = openai;
+    //}
 
     // 🔹 Ensure collection exists (SAFE & IDEMPOTENT)
     public async Task EnsureCollection()
