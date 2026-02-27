@@ -10,14 +10,15 @@ public class QdrantService
     private const string Collection = "document_vectors";
     private const int VectorSize = 1536;
 
-
-
     public QdrantService(OpenAIService openai, IConfiguration config)
     {
         _openai = openai;
 
-        var qdrantUrl = config["QDRANT_URL"];
-        var qdrantApiKey = config["QDRANT_API_KEY"];
+        var qdrantUrl = config["Qdrant:Url"];
+        var qdrantApiKey = config["Qdrant:ApiKey"];
+
+        if (string.IsNullOrEmpty(qdrantUrl))
+            throw new Exception("Qdrant URL is missing");
 
         _client = new QdrantClient(
             new Uri(qdrantUrl),
@@ -25,15 +26,7 @@ public class QdrantService
         );
     }
 
-    //public QdrantService(OpenAIService openai)
-    //{
-
-    //    _client = new QdrantClient("qdrant", 6334);
-    //    //_client = new QdrantClient("localhost", 6334);
-    //    _openai = openai;
-    //}
-
-    // 🔹 Ensure collection exists (SAFE & IDEMPOTENT)
+    // 🔹 Ensure Collection Exists
     public async Task EnsureCollection()
     {
         if (await _client.CollectionExistsAsync(Collection))
@@ -52,7 +45,6 @@ public class QdrantService
         }
         catch (RpcException ex)
         {
-            // If already created by another request/thread
             if (ex.StatusCode == StatusCode.AlreadyExists ||
                 ex.StatusCode == StatusCode.InvalidArgument)
             {
@@ -63,10 +55,9 @@ public class QdrantService
         }
     }
 
-    // 🔹 Insert document into Qdrant
+    // 🔹 Insert Document Vector
     public async Task Insert(string text, string documentId)
     {
-        
         await EnsureCollection();
 
         var vector = await _openai.CreateEmbedding(text);
@@ -89,7 +80,7 @@ public class QdrantService
         );
     }
 
-    // 🔹 Ask AI using RAG
+    // 🔹 Ask Question using RAG
     public async Task<string> AskAI(string question, string documentId)
     {
         await EnsureCollection();
@@ -103,17 +94,17 @@ public class QdrantService
             {
                 Must =
                 {
-                new Condition
-                {
-                    Field = new FieldCondition
+                    new Condition
                     {
-                        Key = "documentId",
-                        Match = new Match
+                        Field = new FieldCondition
                         {
-                            Keyword = documentId
+                            Key = "documentId",
+                            Match = new Match
+                            {
+                                Keyword = documentId
+                            }
                         }
                     }
-                }
                 }
             },
             limit: 5
@@ -126,5 +117,4 @@ public class QdrantService
 
         return await _openai.GetAnswer(question, context);
     }
-
 }
