@@ -1,179 +1,178 @@
-🚀 DocuMindAI
+# 🚀 DocuMindAI  
 
-Full-Stack AI-powered Document Intelligence System built using:
+AI-powered Document Intelligence System built using **ASP.NET Core MVC (UI)** + **ASP.NET Core Web API (Backend)** + **MongoDB** + **OpenAI + Qdrant**.
 
-🖥 ASP.NET Core MVC (UI Layer)
+---
 
-🔌 ASP.NET Core Web API (Backend)
+## 📌 Project Overview  
 
-🍃 MongoDB (NoSQL Database)
+DocuMindAI is a full-stack AI-based document processing system that allows users to:
 
-🧠 OpenAI + Qdrant (Vector Search)
+- 📄 Upload documents  
+- 🗄️ Store document data in MongoDB  
+- 🧠 Generate embeddings using OpenAI  
+- 📊 Store embeddings in Qdrant (Vector Database)  
+- ❓ Ask AI questions based on uploaded documents  
+- 🔐 Secure APIs using JWT & HMAC  
+- 💳 Restrict features using Subscription-based access  
 
-🔐 JWT + HMAC Security
+---
 
-🏗️ Solution Architecture
+## 🏗️ Solution Architecture  
 
-This solution contains 2 Projects:
+This solution contains **2 Projects**:
 
-1️⃣ MVCSimpleUplode (Frontend - MVC)
+### 1️⃣ MVCSimpleUplode (Frontend - MVC)
 
 Responsible for:
 
-User Interface (Razor Views)
+- User Interface (Razor Views)  
+- Authentication (Login / Register)  
+- Admin Dashboard  
+- Document Upload UI  
+- AI Question Interface  
+- API Integration using HttpClient  
 
-Authentication UI (Login/Register)
+**Main Structure:**
 
-Admin Dashboard
-
-Document Upload UI
-
-AI Question Interface
-
-API Integration using HttpClient
-
-Main Folders
+```
 Controllers/
 Views/
 Models/
 wwwroot/
+```
 
-Important Controllers:
+---
 
-AdminController
-
-AiController
-
-AuthController
-
-DocumentController
-
-UserController
-
-2️⃣ SimpleUplode (Backend - Web API)
+### 2️⃣ SimpleUplode (Backend - Web API)
 
 Responsible for:
 
-REST APIs
+- REST APIs  
+- Business Logic  
+- MongoDB Operations  
+- OpenAI Integration  
+- Qdrant Vector Storage  
+- Security Middleware  
+- Subscription Validation  
 
-Business Logic
+**Main Structure:**
 
-MongoDB Operations
-
-AI Integration
-
-Security Middleware
-
-Subscription Validation
-
-Main Folders
+```
 Controllers/
 Models/
 Services/
 Filters/
 Security/
-Important Components
+```
 
-✔ QdrantController
-✔ DocumentController
-✔ AiController
-✔ AuthController
-✔ SubscriptionFilter
-✔ HmacMiddleware
-✔ OpenAIService
-✔ QdrantService
-✔ MongoServices
+Important Components:
 
-🧠 How System Works
+- AiController  
+- DocumentController  
+- AuthController  
+- QdrantController  
+- SubscriptionFilter  
+- HmacMiddleware  
+- OpenAIService  
+- QdrantService  
+- MongoServices  
 
-User registers & logs in (JWT generated)
+---
 
-User uploads document
+## 🔐 Security Features  
 
-Document stored in MongoDB
+- ✅ JWT Authentication  
+- ✅ HMAC Signature Validation  
+- ✅ Subscription-Based Access Control  
+- ✅ Middleware-based Request Protection  
 
-Embeddings generated using OpenAI
+---
 
-Embeddings stored in Qdrant
+## 🛠️ Technologies Used  
 
-User asks question
+- ASP.NET Core MVC  
+- ASP.NET Core Web API  
+- C#  
+- MongoDB  
+- OpenAI API  
+- Qdrant  
+- JWT Authentication  
+- Docker  
+- Swagger  
 
-System searches vector DB
+---
 
-Context sent to OpenAI
+## ⚙️ How to Run  
 
-AI response returned
+### 1️⃣ Configure MongoDB  
 
-🛠️ Technologies Used
+Update `appsettings.json`:
 
-ASP.NET Core MVC
-
-ASP.NET Core Web API
-
-C#
-
-MongoDB
-
-OpenAI API
-
-Qdrant
-
-JWT Authentication
-
-HMAC Request Validation
-
-Custom Filters
-
-Docker
-
-🔐 Security Features
-
-JWT Authentication
-
-HMAC Signature Validation
-
-Subscription-Based Access Filter
-
-Middleware-based Request Protection
-
-⚙️ How to Run
-1️⃣ Configure MongoDB
-
-Update appsettings.json:
-
+```json
 "MongoDbSettings": {
   "ConnectionString": "mongodb://localhost:27017",
   "DatabaseName": "DocuMindAI"
 }
-2️⃣ Run Backend (API)
+```
+
+---
+
+### 2️⃣ Run Backend (API)
+
+```
 dotnet run --project SimpleUplode
-3️⃣ Run Frontend (MVC)
+```
+
+---
+
+### 3️⃣ Run Frontend (MVC)
+
+```
 dotnet run --project MVCSimpleUplode
-🐳 Run with Docker
+```
+
+---
+
+## 🐳 Run with Docker  
+
+```
 docker-compose up --build
-📌 Major API Endpoints
-Upload Document
+```
 
-POST /api/document/upload
+---
 
-Ask AI
+## 📌 Major API Endpoints  
 
-POST /api/ai/ask
+### Upload Document  
+POST `/api/document/upload`
 
+### Ask AI  
+POST `/api/ai/ask`
+
+Example:
+
+```json
 {
   "question": "Explain .NET Developer role",
   "documentId": "document-id"
 }
-🎯 Key Highlights
+```
 
-✔ Full Stack Architecture
-✔ Secure API Design
-✔ AI-Powered Document Q&A
-✔ Vector Search Integration
-✔ Subscription Based Feature Control
-✔ Clean Layered Structure
+---
 
-👨‍💻 Author
+## 🎯 Key Highlights  
 
-Amit Dange
-.NET Developer | AI Integration | MongoDB
+✔ Full Stack Architecture  
+✔ AI-Powered Document Q&A  
+✔ Secure API Design  
+✔ MongoDB NoSQL Integration  
+✔ Vector Search using Qdrant  
+✔ Subscription-Based Feature Control  
+
+---
+
+## 👨‍💻 Author  
+
+**Amit Dange**  
+.NET Developer | AI Integration | MongoDB  
